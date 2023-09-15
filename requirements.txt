@@ -1,0 +1,5 @@
+fastdownload
+tqdm
+transformers 
+pillow
+diffusers
