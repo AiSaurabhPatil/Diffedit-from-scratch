@@ -1,8 +1,7 @@
 import torch 
 from torchvision import transforms as tfms 
 from fastdownload import FastDownload
-import numpy as np 
-from tqdm.auto import tqdm 
+import numpy as np  
 import os 
 from PIL import Image
 
@@ -17,7 +16,7 @@ def load_artifacts():
     '''
 
     # variation autoencoder to convert image to letent and back to image 
-    Vae = AutoencoderKL.from_pretrained("ComVis/stable-diffusion-v1-4",
+    Vae = AutoencoderKL.from_pretrained("CompVis/stable-diffusion-v1-4",
                                         subfolder ="vae" ,
                                         torch_dtype = torch.float16).to("cuda") 
     
@@ -77,7 +76,7 @@ def image_to_latents(img):
 
     return img_latent
 
-Vae,UNet,tokenizer,text_encoder,scheduler  = load_artifacts() 
+
 
 def latent_to_image(latents):
     """
@@ -124,8 +123,8 @@ def text_embeddings(prompts , max_length = None):
 
     return encoded_text
 
- 
 
+Vae,UNet,tokenizer,text_encoder,scheduler  = load_artifacts() 
 
     
 
