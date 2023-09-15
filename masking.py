@@ -15,8 +15,8 @@ def prompt_to_img_i2i(prompts, init_img,
     encoded_text = text_embeddings(prompts)
 
     # adding an unconditional prompt which helps in the generation process
-    if not neg_prompt : uncond = text_embeddings([""], text.shape[1])
-    else : uncond = text_embeddings(neg_prompt , text.shape[1])
+    if not neg_prompt : uncond = text_embeddings([""], encoded_text.shape[1])
+    else : uncond = text_embeddings(neg_prompt , encoded_text.shape[1])
     embeddings = torch.cat([uncond,encoded_text])
 
     # setting up the seed 
