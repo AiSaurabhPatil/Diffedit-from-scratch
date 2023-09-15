@@ -2,7 +2,10 @@ import torch
 from torchvision import transforms as tfms 
 from fastdownload import FastDownload
 import numpy as np  
-import os 
+import os
+import logging
+logging.disable(logging.WARNING)  
+
 from PIL import Image
 
 # Import the CLIP artifacts 
@@ -21,12 +24,12 @@ def load_artifacts():
                                         torch_dtype = torch.float16).to("cuda") 
     
     # Unet to perform diffusion process 
-    UNet = UNet2DConditionModel.from_pretrained("ComVis/stable-diffusion-v1-4",
+    UNet = UNet2DConditionModel.from_pretrained("CompVis/stable-diffusion-v1-4",
                                             subfolder ="unet",
                                             torch_dtype = torch.float16).to("cuda") 
 
     # tokenizer to convert text input into tokens
-    tokenizer = CLIPTokenizer.from_pretrained('openai/clip-vit-large-patch',
+    tokenizer = CLIPTokenizer.from_pretrained('openai/clip-vit-large-patch14',
                                               torch_dtype = torch.float16)
 
     # textencoder to convert tokens into vector embeddings 

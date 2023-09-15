@@ -3,3 +3,4 @@ tqdm
 transformers 
 pillow
 diffusers
+matplotlib

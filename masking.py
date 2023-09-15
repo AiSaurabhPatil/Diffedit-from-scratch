@@ -12,12 +12,12 @@ def prompt_to_img_i2i(prompts, init_img,
     """
 
     # converting text prompt into embedding
-    text = text_embeddings(prompts)
+    encoded_text = text_embeddings(prompts)
 
     # adding an unconditional prompt which helps in the generation process
     if not neg_prompt : uncond = text_embeddings([""], text.shape[1])
     else : uncond = text_embeddings(neg_prompt , text.shape[1])
-    embeddings = torch.cat([uncond] , text )
+    embeddings = torch.cat([uncond,encoded_text])
 
     # setting up the seed 
     if seed : torch.manual_seed(seed)
@@ -30,7 +30,7 @@ def prompt_to_img_i2i(prompts, init_img,
 
     # setting up the initial time step based on the strength 
     init_timestep = int(steps * strength)
-    timesteps = scheduler.timesteps(-init_timestep)
+    timesteps = scheduler.timesteps[-init_timestep]
     timesteps = torch.tensor([timesteps] , device = 'cuda')
 
     # adding noise to the latents 
@@ -49,14 +49,14 @@ def prompt_to_img_i2i(prompts, init_img,
 
         # Predicting the noise residual using Unet
         with torch.no_grad():
-            u , t = UNet( scaled_latents , timesteps,
-                        encoder_hidden_state = embeddings).sample.chunk(2)
+            u , t = UNet( scaled_latents , timestep,
+                        encoder_hidden_states = embeddings).sample.chunk(2)
 
         # performing guidance 
         pred = u + g*(t-u)
 
         # updating the latents based on the guidance,noise residual and current timestep
-        final_latents = scheduler.step(pred , timesteps , latents).prev_sample
+        final_latents = scheduler.step(pred , timestep, latents).prev_sample
     
 
     return final_latents.detach().cpu()
@@ -93,7 +93,7 @@ def create_mask ( init_img ,refer_prompt ,
 
     # taking the average of n iterations 
     for idx in range(n):
-        mask += np.abs(diff(idx))
+        mask += np.abs(diff[idx])
 
     #averaging multiple channels 
     mask = mask.mean(0)
