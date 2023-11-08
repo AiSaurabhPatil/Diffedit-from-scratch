@@ -53,8 +53,8 @@ def prompt_to_img_diffedit(init_img , refer_prompt, query_prompt,
                                encoder_hidden_states = embeddings).sample.chunk(3)
         
         # performing guidance 
-        refer_pred = u + g(rt - u)
-        query_pred = u + g(qt - u)
+        refer_pred = u + g * (rt - u)
+        query_pred = u + g * (qt - u)
 
         # updating the latent based the timestep 
         refer_latents = scheduler.step(refer_pred ,timestep ,latents).prev_sample
