@@ -13,7 +13,6 @@ from fastdownload import FastDownload
 import numpy as np
 from tqdm.auto import tqdm
 import matplotlib.pyplot as plt
-%matplotlib inline
 from IPython.display import display
 import shutil
 import os

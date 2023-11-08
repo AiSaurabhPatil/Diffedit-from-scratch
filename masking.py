@@ -1,5 +1,5 @@
 import torch
-from utils import text_embeddings , scheduler ,image_to_latents ,UNet
+from utils import text_encoder , scheduler ,pil_to_latents ,unet
 from tqdm.auto import tqdm
 import numpy as np
 from diffedit import prompt_2_img_i2i
