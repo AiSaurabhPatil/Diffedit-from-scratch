@@ -14,7 +14,7 @@ def load_image(p):
 def diffEdit(init_img, rp , qp, g=7.5, seed=100, strength =0.7, steps=70, dim=512):
     
     ## Step 1: Create mask
-    mask = create_mask(init_img=init_img, rp=rp, qp=qp)
+    mask = create_mask(init_img=init_img, refer_prompt=rp, query_prompt=qp)
     
     ## Step 2 and 3: Diffusion process using mask
     output = prompt_to_img_diffedit(
